@@ -2,24 +2,25 @@
   <div>
     <table>
       <thead>
-        <tr>
-          <th>Numero</th>
-          <th>date</th>
-          <th>centre</th>
-          <th>auteur</th>
-          <th>localite</th>
-          <th>commentaire</th>
-        </tr>      
+      <tr>
+        <th>Numero</th>
+        <th>date</th>
+        <th>centre</th>
+        <th>auteur</th>
+        <th>localite</th>
+        <th>commentaire</th>
+      </tr>
       </thead>
       <tbody>
       <ligneTableau :tableau="tableau"/>
-        <tr>
-          <td><button @click="goToAjouter()">Ajouter</button></td>
-        </tr>
+      <tr>
+        <td>
+          <button @click="goToAjouter()">Ajouter</button>
+        </td>
+      </tr>
       </tbody>
     </table>
-</div>
-
+  </div>
 
 
 </template>
@@ -29,19 +30,19 @@ import axios from "axios";
 import LigneTableau from "~/components/LigneTableau.vue";
 import AjoutForm from "~/components/AjoutForm.vue";
 
-export default{
+export default {
   components: {LigneTableau},
-data() {
-  return {
-    tableau: [],
-    centre: '',
-    auteur: '',
-    localite: '',
-    commentaire: '',
-  }
+  data() {
+    return {
+      tableau: [],
+      centre: '',
+      auteur: '',
+      localite: '',
+      commentaire: '',
+    }
 
-},
-mounted() {
+  },
+  mounted() {
     this.fetchData();
   },
   methods: {
@@ -49,6 +50,7 @@ mounted() {
       axios.get('http://localhost:3006/api/getData').then(response => {
         this.tableau = response.data;
         console.log("tableau:", this.tableau);
+        return this.tableau.sort((a, b) => a.id_courrier - b.id_courrier)
       });
     },
     goToAjouter() {
@@ -73,7 +75,7 @@ table, form {
 }
 
 td {
-  
+
   width: 350px;
   text-align: justify;
   padding: 16px;

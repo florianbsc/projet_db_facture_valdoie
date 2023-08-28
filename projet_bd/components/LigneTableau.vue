@@ -1,7 +1,7 @@
 <template>
-  <tr v-for="(ligne, index) in tableau" :key="tableau.id">
+  <tr v-for="(ligne, index) in tableau" :key="tableau.id_courrier">
     <td>{{ ligne.id_courrier }}</td>
-    <td>{{ ligne.date_courrier }}</td>
+    <td v-html="formatDate(ligne.date_courrier)"></td>
     <td>{{ ligne.nom_centre }}</td>
     <td>{{ ligne.auteur_courrier }}</td>
     <td>{{ ligne.localite_courrier }}</td>
@@ -16,6 +16,7 @@
 </template>
 <script>
 import axios from "axios";
+import dayjs from "dayjs";
 
 export default {
   name: 'ligneTableau',
@@ -30,6 +31,10 @@ export default {
           this.tableau.splice(index, 1);
         }
       });
+    },
+    formatDate(dateString) {
+      const date = dayjs(dateString);
+      return date.format('D/MM/YYYY')
     },
   }
 }
