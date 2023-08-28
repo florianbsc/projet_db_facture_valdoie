@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="isDataSend">Le courrier a bien été envoyé</div>
+    <div v-if="isDataSend"> {{lastAdded}}</div>
     <form method="get" action="#">
       <div>
         <div>
@@ -8,7 +8,7 @@
           <select name="centre" id="centre" v-model="centre">
             <option selected value="">-Veuillez choisir un centre-</option>
             <template v-for="(centre, index) in centres" :key="centre.id">
-              <option :value="centre.id">{{ centre.nom }}</option>
+              <option :value="centre.id_centre">{{ centre.nom_centre }}</option>
             </template>
           </select>
         </div>
@@ -48,6 +48,7 @@ export default {
       localite: '',
       commentaire: '',
       isDataSend: false,
+      lastAdded: []
     }
   },
   methods: {
@@ -58,6 +59,7 @@ export default {
         localite:this.localite,
         commentaire:this.commentaire,
       }).then(response => {
+        this.lastAdded = [this.centre, this.commentaire, this.auteur, this.localite]
         if (response.status === 201) {
           this.centre = '';
           this.auteur = '';

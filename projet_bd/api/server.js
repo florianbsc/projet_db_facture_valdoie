@@ -30,7 +30,7 @@ app.use(express.json()); // Ajoutez ce middleware pour analyser les données JSO
 
 //fonctin pour recuper toutes les données constituant la basse de données
 app.get('/api/getData', (req, res) => {
-  const query = 'SELECT * FROM courrier';
+  const query = 'SELECT * FROM courrier, centre WHERE courrier.centre_courrier = centre.id_centre';
   connection.query(query, (error, results) => {
     if (error) {
       console.error(error);
@@ -45,7 +45,7 @@ app.get('/api/getData', (req, res) => {
 // fonction pour recupere une donné specifique
 app.get('/api/getSpecificCourrier/:id', (req, res) => {
     const courrierId = req.params.id;
-    const query = 'SELECT * FROM courrier WHERE id = ?';
+    const query = 'SELECT * FROM courrier WHERE id_courrier = ?';
    
     connection.query(query, [courrierId], (error, result) => {
       if (error) {
@@ -68,7 +68,7 @@ app.get('/api/getSpecificCourrier/:id', (req, res) => {
 //fonction pour supprimer un donnée spéficique avec son ID
 app.delete('/api/deleteItem/:id', (req, res) => {
     const itemId = req.params.id;
-    const query = 'DELETE FROM courrier WHERE id = ?';
+    const query = 'DELETE FROM courrier WHERE id_courrier = ?';
    
     connection.query(query, [itemId], (error, result) => {
       if (error) {
@@ -96,7 +96,7 @@ app.get('/api/getDataCentre', (req, res) => {
 //fonction pour ajt un courrier
   app.post('/api/addCourrier', (req, res) => {
     const {centre,auteur,localite,commentaire} = req.body;
-    const query = `INSERT INTO courrier (centre,auteur,localite,commentaire) VALUES (${centre}, "${auteur}", "${localite}", "${commentaire}")`;
+    const query = `INSERT INTO courrier (centre_courrier,auteur_courrier,localite_courrier,commentaire_courrier) VALUES (${centre}, "${auteur}", "${localite}", "${commentaire}")`;
     connection.query(query, (error, results) => {
         if (error) {
           console.error(error);
@@ -112,7 +112,7 @@ app.get('/api/getDataCentre', (req, res) => {
 app.put('/api/updateCourrier/:id', (req, res) => {
     const courrierId = req.params.id;
     const {centre,auteur,localite,commentaire} = req.body;
-    const query = `UPDATE courrier SET centre = ${centre}, auteur = "${auteur}", localite = "${localite}", commentaire = "${commentaire}" WHERE id = ${courrierId} `;
+    const query = `UPDATE courrier SET centre_courrier = ${centre}, auteur_courrier = "${auteur}", localite_courrier = "${localite}", commentaire_courrier = "${commentaire}" WHERE id_courrier = ${courrierId} `;
     connection.query(query, (error, results) => {
         if (error) {
           console.error(error);
@@ -122,27 +122,6 @@ app.put('/api/updateCourrier/:id', (req, res) => {
         }
       });
   });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //fonction message d'indication d'etat du serveur en marche
 app.listen(port, () => {

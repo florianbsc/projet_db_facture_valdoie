@@ -1,16 +1,16 @@
 <template>
   <tr v-for="(ligne, index) in tableau" :key="tableau.id">
-    <td>{{ ligne.id }}</td>
-    <td>{{ ligne.date }}</td>
-    <td>{{ ligne.centre }}</td>
-    <td>{{ ligne.auteur }}</td>
-    <td>{{ ligne.localite }}</td>
-    <td>{{ ligne.commentaire }}</td>
+    <td>{{ ligne.id_courrier }}</td>
+    <td>{{ ligne.date_courrier }}</td>
+    <td>{{ ligne.nom_centre }}</td>
+    <td>{{ ligne.auteur_courrier }}</td>
+    <td>{{ ligne.localite_courrier }}</td>
+    <td>{{ ligne.commentaire_courrier }}</td>
     <td>
-      <button @click="deleteItem(ligne.id, index)">Supprimer</button>
+      <button @click="deleteItem(ligne.id_courrier, index)">Supprimer</button>
     </td>
     <td>
-      <NuxtLink :to="`/modifier/${ligne.id}`">MODIFIER</NuxtLink>
+      <NuxtLink :to="`/modifier/${ligne.id_courrier}`">MODIFIER</NuxtLink>
     </td>
   </tr>
 </template>
