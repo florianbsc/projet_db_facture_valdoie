@@ -3,6 +3,8 @@
 const express = require('express');
 const mysql = require('mysql');
 const cors = require('cors');
+const bcrypt = require('bcrypt');
+
 require('dotenv').config()
 console.log('DOTENV config :', process.env)
 
@@ -60,9 +62,37 @@ app.get('/api/getSpecificCourrier/:id', (req, res) => {
       }
     });
   });
-  
-  
-  
+const crypto = require('crypto'); // Importez le module crypto pour gérer le hachage MD5
+
+app.post('/login', (req, res) => {
+    const { login, password } = req.body;
+
+    // Recherchez l'utilisateur dans la base de données
+    connection.query('SELECT * FROM utilisateur WHERE login_user = ?', [login], (err, users) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Erreur lors de la connexion');
+        }
+
+        // Si aucun utilisateur trouvé, renvoyer un message d'erreur
+        if (users.length === 0) {
+            return res.status(401).send('Utilisateur non trouvé');
+        }
+
+        const user = users[0]; // Prenez le premier utilisateur trouvé
+
+        // Convertir le mot de passe fourni en MD5
+        const hashedPassword = crypto.createHash('md5').update(password).digest('hex');
+
+        // Comparer le mot de passe MD5 stocké avec celui fourni
+        if (hashedPassword === user.mdp_user) {
+            return res.send('Connecté avec succès');
+        } else {
+            return res.status(401).send('Mot de passe incorrect');
+        }
+    });
+});
+
 
 // API pour supprimer un élément par son ID
 //fonction pour supprimer un donnée spéficique avec son ID
@@ -106,6 +136,22 @@ app.get('/api/getDataCentre', (req, res) => {
         }
       });
   });
+  app.get('/api/getCourrierByUser/:id', (req, res) =>{
+      const userId = req.params.id;
+      const query = 'SELECT * FROM courrier WHERE user_courrier = ?';
+      connection.query(query,[userId], (error, result) => {
+          if (error) {
+              console.error(error);
+              res.status(500).json({ error: 'Erreur lors de la récupération des courriers utilisateurs' });
+          } else {
+              if (result.length === 0) {
+                  res.status(404).json({ message: 'Courrier utilisateur non trouvé' });
+              } else {
+                  res.status(200).json(result);
+              }
+          }
+      });
+  })
 
 
 //fonction pour MAJ
@@ -127,5 +173,3 @@ app.put('/api/updateCourrier/:id', (req, res) => {
 app.listen(port, () => {
   console.log(`Serveur Express en cours d'exécution sur le port ${port}`);
 });
-
-
