@@ -9,6 +9,7 @@
         <th>auteur</th>
         <th>localite</th>
         <th>commentaire</th>
+        <button @clik="">Se connecter</button>
       </tr>
       </thead>
       <tbody>
