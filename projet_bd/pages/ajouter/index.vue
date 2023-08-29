@@ -1,3 +1,11 @@
+<template>
+  <div>
+    <button @click="GoToBack()">Retour</button>
+    <AjoutForm :centres="centres"/>
+  </div>
+
+</template>
+
 <script>
 import axios from "axios";
 import AjoutForm from "~/components/AjoutForm.vue";
@@ -29,13 +37,7 @@ export default {
 }
 </script>
 
-<template>
-  <div>
-    <button @click="GoToBack()">Retour</button>
-    <AjoutForm :centres="centres"/>
-  </div>
 
-</template>
 
 <style scoped>
 

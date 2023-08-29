@@ -9,11 +9,15 @@
     <td>
       <button @click="deleteItem(ligne.id_courrier, index)">Supprimer</button>
     </td>
+<!--
+    lien vers la page de modification des mails
+-->
     <td>
       <NuxtLink :to="`/modifier/${ligne.id_courrier}`">MODIFIER</NuxtLink>
     </td>
   </tr>
 </template>
+
 <script>
 import axios from "axios";
 import dayjs from "dayjs";
