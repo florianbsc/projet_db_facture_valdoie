@@ -43,10 +43,6 @@ app.get('/api/getData', courrierController.getCourrier)
 app.get('/api/getSpecificCourrier/:id', courrierController.getSpecififcCourrier)
 
 
-//fonction qui
-app.post('/login', courrierController.login)
-
-
 // API pour supprimer un élément par son ID
 //fonction pour supprimer un donnée spéficique avec son ID
 app.delete('/api/deleteItem/:id',courrierController.deleteItem )
@@ -67,6 +63,9 @@ app.get('/api/getCourrierByUser/:id', courrierController.getCourrierByUser)
 //fonction pour MAJ le courrier
 app.put('/api/updateCourrier/:id', courrierController.updateCourrier);
 
+app.post(`/api/login/`, courrierController.login);
+
+app.post(`/api/getUserInfos/`, courrierController.getUserInfos)
 
 //fonction message d'indication d'etat du serveur en marche
 app.listen(port, () => {

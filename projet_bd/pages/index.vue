@@ -9,7 +9,10 @@
         <th>auteur</th>
         <th>localite</th>
         <th>commentaire</th>
-        <button @clik="">Se connecter</button>
+        <th>
+          <button @click="goToLogin()">Connexion</button>
+        </th>
+
       </tr>
       </thead>
       <tbody>
@@ -56,6 +59,9 @@ export default {
     },
     goToAjouter() {
       this.$router.push('/ajouter/');
+    },
+    goToLogin() {
+      this.$router.push('/login/');
     }
 
   }

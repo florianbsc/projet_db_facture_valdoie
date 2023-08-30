@@ -151,6 +151,19 @@ function updateCourrier(req, res) {
     });
 };
 
+function getUserInfos(req, res) {
+    const {login, password} = req.body;
+    const hashedPassword = crypto.createHash('md5').update(password).digest('hex');
+    const query = `SELECT id_user, id_niveau FROM utilisateur WHERE login_user = '${login}' AND mdp_user = '${hashedPassword}'`
+    connection.query(query, (error, results)=> {
+        if (error) {
+            console.error(error)
+            res.status(500).json({error: 'Erreur lors de l\'acquisition des données'})
+        } else {
+            res.status(200).json(results)
+        }
+    })
+}
 
 
 
@@ -158,7 +171,7 @@ function updateCourrier(req, res) {
 
 
 module.exports = {
-    updateCourrier, getCourrier, getSpecififcCourrier, login, deleteItem, getDataCentre, addCourrier, getCourrierByUser
+    updateCourrier, getCourrier, getSpecififcCourrier, login, deleteItem, getDataCentre, addCourrier, getCourrierByUser, getUserInfos
 };
 
 
