@@ -1,23 +1,48 @@
 <template>
-  <tr v-for="(ligne, index) in tableau" :key="tableau.id_courrier">
-    <td>{{ ligne.id_courrier }}</td>
-    <td v-html="formatDate(ligne.date_courrier)"></td>
-    <td>{{ ligne.nom_centre }}</td>
-    <td>{{ ligne.auteur_courrier }}</td>
-    <td>{{ ligne.localite_courrier }}</td>
-    <td>{{ ligne.commentaire_courrier }}</td>
-    <td>
-      <button v-if="userNiveau === '3'" @click="deleteItem(ligne.id_courrier, index)">Supprimer</button>
-      <button v-else-if="userNiveau === '2' && parseInt(userId) === ligne.user_courrier" @click="deleteItem(ligne.id_courrier, index)">Supprimer</button>
-    </td>
-<!--
-    lien vers la page de modification des mails
--->
-    <td>
-      <NuxtLink v-if="userNiveau === '3'" :to="`/modifier/${ligne.id_courrier}`">MODIFIER</NuxtLink>
-      <NuxtLink v-else-if="userNiveau === '2' && parseInt(userId) === ligne.user_courrier" :to="`/modifier/${ligne.id_courrier}`">MODIFIER</NuxtLink>
-    </td>
-  </tr>
+  <template v-for="(ligne, index) in tableau" :key="tableau.id_courrier">
+    <tr v-if="isUserActivated && parseInt(userId) === ligne.user_courrier">
+      <td>{{ ligne.id_courrier }}</td>
+      <td v-html="formatDate(ligne.date_courrier)"></td>
+      <td>{{ ligne.nom_centre }}</td>
+      <td>{{ ligne.auteur_courrier }}</td>
+      <td>{{ ligne.localite_courrier }}</td>
+      <td>{{ ligne.commentaire_courrier }}</td>
+      <td>
+        <button v-if="userNiveau === '3'" @click="deleteItem(ligne.id_courrier, index)">Supprimer</button>
+        <button v-else-if="userNiveau === '2' && parseInt(userId) === ligne.user_courrier"
+                @click="deleteItem(ligne.id_courrier, index)">Supprimer
+        </button>
+      </td>
+      <td>
+        <NuxtLink v-if="userNiveau === '3'" :to="`/modifier/${ligne.id_courrier}`">MODIFIER</NuxtLink>
+        <NuxtLink v-else-if="userNiveau === '2' && parseInt(userId) === ligne.user_courrier"
+                  :to="`/modifier/${ligne.id_courrier}`">MODIFIER
+        </NuxtLink>
+      </td>
+    </tr>
+    <tr v-else-if="!isUserActivated">
+      <td>{{ ligne.id_courrier }}</td>
+      <td v-html="formatDate(ligne.date_courrier)"></td>
+      <td>{{ ligne.nom_centre }}</td>
+      <td>{{ ligne.auteur_courrier }}</td>
+      <td>{{ ligne.localite_courrier }}</td>
+      <td>{{ ligne.commentaire_courrier }}</td>
+      <td>
+        <button v-if="userNiveau === '3'" @click="deleteItem(ligne.id_courrier, index)">Supprimer</button>
+        <button v-else-if="userNiveau === '2' && parseInt(userId) === ligne.user_courrier"
+                @click="deleteItem(ligne.id_courrier, index)">Supprimer
+        </button>
+      </td>
+      <td>
+        <NuxtLink v-if="userNiveau === '3'" :to="`/modifier/${ligne.id_courrier}`">MODIFIER</NuxtLink>
+        <NuxtLink v-else-if="userNiveau === '2' && parseInt(userId) === ligne.user_courrier"
+                  :to="`/modifier/${ligne.id_courrier}`">MODIFIER
+        </NuxtLink>
+      </td>
+    </tr>
+
+  </template>
+
 </template>
 
 <script>
@@ -29,7 +54,8 @@ export default {
   props: {
     tableau: {},
     userId: null,
-    userNiveau: null
+    userNiveau: null,
+    isUserActivated: false,
   },
   methods: {
     deleteItem(id, index) {

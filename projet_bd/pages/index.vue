@@ -5,19 +5,23 @@
       <button v-else @click="goToLogin()">Connexion</button>
       <div v-if="user.login">Bonjour {{user.login}}</div>
     </div>
+    <div v-if="user.id">
+      <button @click="isUserActivated = !isUserActivated">{{isUserActivated ? 'Afficher tout les courriers' : 'Afficher uniquement ses propres courriers'}}</button>
+    </div>
+
     <table>
       <thead>
       <tr>
-        <th>Numero</th>
-        <th>date</th>
-        <th>centre</th>
-        <th>auteur</th>
-        <th>localite</th>
-        <th>commentaire</th>
+        <th><button @click="sortTableBy('id_courrier','number')">Numero</button></th>
+        <th><button @click="sortTableBy('date_courrier', 'string')">Date</button></th>
+        <th><button @click="sortTableBy('nom_centre', 'string')">Centre</button></th>
+        <th><button @click="sortTableBy('auteur_courrier', 'string')">Auteur</button></th>
+        <th><button @click="sortTableBy('localite_courrier', 'string')">Localite</button></th>
+        <th><button @click="sortTableBy('commentaire_courrier', 'string')">Commentaire</button></th>
       </tr>
       </thead>
       <tbody>
-      <ligneTableau :tableau="tableau" :user-id="user.id" :user-niveau="user.niveau"/>
+      <ligneTableau :tableau="tableau" :user-id="user.id" :user-niveau="user.niveau" :is-user-activated="isUserActivated"/>
       <tr>
         <td>
           <button v-if="user.niveau === '2' || user.niveau === '3'" @click="goToAjouter()">Ajouter</button>
@@ -36,14 +40,11 @@ import LigneTableau from "~/components/LigneTableau.vue";
 import nuxtStorage from "nuxt-storage/nuxt-storage";
 
 export default {
-  computed: {
-    nuxtStorage() {
-      return nuxtStorage
-    }
-  },
   components: {LigneTableau},
   data() {
     return {
+      isActive: false,
+      isUserActivated: false,
       tableau: [],
       centre: '',
       auteur: '',
@@ -62,12 +63,14 @@ export default {
     this.fetchData();
     this.userData()
   },
+  computed: {
+
+  },
   methods: {
     fetchData() {
       axios.get('http://localhost:3006/api/getData').then(response => {
         this.tableau = response.data;
         console.log("tableau:", this.tableau);
-        return this.tableau.sort((a, b) => a.id_courrier - b.id_courrier)
       });
     },
     goToAjouter() {
@@ -88,7 +91,16 @@ export default {
         this.user.niveau = nuxtStorage.localStorage.getData('rights')
         this.user.login = JSON.parse(nuxtStorage.localStorage.getData('userLogin'))
       }
-    }
+    },
+    sortTableBy(key,dataType) {
+      this.tableau.sort((a, b) => {
+        if (dataType === 'string') {
+          return a[key].localeCompare(b[key]);
+        } else if (dataType === 'number') {
+          return parseFloat(a[key]) - parseFloat(b[key])
+        }
+      })
+    },
   }
 
 
@@ -113,6 +125,10 @@ td {
   padding: 16px;
   margin: auto;
 
+}
+
+.active {
+  background-color: green;
 }
 
 
