@@ -35,6 +35,7 @@
 </template>
 <script>
 import axios from "axios";
+import nuxtStorage from "nuxt-storage/nuxt-storage";
 
 export default {
   name: 'AjoutForm',
@@ -47,9 +48,13 @@ export default {
       auteur: '',
       localite: '',
       commentaire: '',
+      userId: null,
       isDataSend: false,
       lastAdded: []
     }
+  },
+  mounted() {
+    this.getUserId()
   },
   methods: {
     addCourrier() {
@@ -58,6 +63,7 @@ export default {
         auteur:this.auteur,
         localite:this.localite,
         commentaire:this.commentaire,
+        userId:this.userId
       }).then(response => {
         this.lastAdded = [this.centre, this.commentaire, this.auteur, this.localite]
         if (response.status === 201) {
@@ -69,6 +75,9 @@ export default {
         }
       })
 
+    },
+    getUserId () {
+     this.userId = nuxtStorage.localStorage.getData('userId')
     }
   }
 }

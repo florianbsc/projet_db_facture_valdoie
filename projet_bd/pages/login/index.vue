@@ -1,5 +1,6 @@
 <script>
 import axios from "axios";
+import nuxtStorage from "nuxt-storage/nuxt-storage";
 
 export default  {
   data() {
@@ -21,6 +22,10 @@ export default  {
             password: this.password,
           }).then(response => {
             console.log(response.data)
+            nuxtStorage.localStorage.setData('rights', `${JSON.stringify(response.data[0].id_niveau)}`)
+            nuxtStorage.localStorage.setData('userId', `${JSON.stringify(response.data[0].id_user)}`)
+            nuxtStorage.localStorage.setData('userLogin', `${JSON.stringify(response.data[0].login_user)}`)
+            this.$router.push('/')
           })
         }
       })

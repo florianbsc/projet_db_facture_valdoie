@@ -105,8 +105,8 @@ connection.query(query, (error, results) => {
 
 //fonction pour ajt un courrier
 function addCourrier(req, res) {
-    const {centre,auteur,localite,commentaire} = req.body;
-    const query = `INSERT INTO courrier (centre_courrier,auteur_courrier,localite_courrier,commentaire_courrier) VALUES (${centre}, "${auteur}", "${localite}", "${commentaire}")`;
+    const {centre,auteur,localite,commentaire,userId} = req.body;
+    const query = `INSERT INTO courrier (centre_courrier,auteur_courrier,localite_courrier,commentaire_courrier,user_courrier) VALUES (${centre}, "${auteur}", "${localite}", "${commentaire}", ${userId})`;
     connection.query(query, (error, results) => {
         if (error) {
             console.error(error);
@@ -154,7 +154,7 @@ function updateCourrier(req, res) {
 function getUserInfos(req, res) {
     const {login, password} = req.body;
     const hashedPassword = crypto.createHash('md5').update(password).digest('hex');
-    const query = `SELECT id_user, id_niveau FROM utilisateur WHERE login_user = '${login}' AND mdp_user = '${hashedPassword}'`
+    const query = `SELECT id_user, id_niveau, login_user FROM utilisateur WHERE login_user = '${login}' AND mdp_user = '${hashedPassword}'`
     connection.query(query, (error, results)=> {
         if (error) {
             console.error(error)

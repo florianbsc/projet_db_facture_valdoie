@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div>
+      <button v-if="user.id" @click="deconnectUser()">Deconnexion</button>
+      <button v-else @click="goToLogin()">Connexion</button>
+      <div v-if="user.login">Bonjour {{user.login}}</div>
+    </div>
     <table>
       <thead>
       <tr>
@@ -9,17 +14,13 @@
         <th>auteur</th>
         <th>localite</th>
         <th>commentaire</th>
-        <th>
-          <button @click="goToLogin()">Connexion</button>
-        </th>
-
       </tr>
       </thead>
       <tbody>
-      <ligneTableau :tableau="tableau"/>
+      <ligneTableau :tableau="tableau" :user-id="user.id" :user-niveau="user.niveau"/>
       <tr>
         <td>
-          <button @click="goToAjouter()">Ajouter</button>
+          <button v-if="user.niveau === '2' || user.niveau === '3'" @click="goToAjouter()">Ajouter</button>
         </td>
       </tr>
       </tbody>
@@ -32,9 +33,14 @@
 <script>
 import axios from "axios";
 import LigneTableau from "~/components/LigneTableau.vue";
-import AjoutForm from "~/components/AjoutForm.vue";
+import nuxtStorage from "nuxt-storage/nuxt-storage";
 
 export default {
+  computed: {
+    nuxtStorage() {
+      return nuxtStorage
+    }
+  },
   components: {LigneTableau},
   data() {
     return {
@@ -43,11 +49,18 @@ export default {
       auteur: '',
       localite: '',
       commentaire: '',
+      user: [
+        {
+          id: null,
+          niveau: null,
+          login: null,
+        }
+      ]
     }
-
   },
   mounted() {
     this.fetchData();
+    this.userData()
   },
   methods: {
     fetchData() {
@@ -62,8 +75,20 @@ export default {
     },
     goToLogin() {
       this.$router.push('/login/');
+    },
+    deconnectUser() {
+      nuxtStorage.localStorage.clear();
+      this.user.id = null
+      this.user.niveau = null
+      this.user.login = null
+    },
+    userData() {
+      if (nuxtStorage.localStorage.getData('userId') !== null) {
+        this.user.id = nuxtStorage.localStorage.getData('userId')
+        this.user.niveau = nuxtStorage.localStorage.getData('rights')
+        this.user.login = JSON.parse(nuxtStorage.localStorage.getData('userLogin'))
+      }
     }
-
   }
 
 

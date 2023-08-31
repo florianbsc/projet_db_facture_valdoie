@@ -7,13 +7,13 @@
     <td>{{ ligne.localite_courrier }}</td>
     <td>{{ ligne.commentaire_courrier }}</td>
     <td>
-      <button @click="deleteItem(ligne.id_courrier, index)">Supprimer</button>
+      <button v-if="userNiveau === '2' || userNiveau === '3'" @click="deleteItem(ligne.id_courrier, index)">Supprimer</button>
     </td>
 <!--
     lien vers la page de modification des mails
 -->
     <td>
-      <NuxtLink :to="`/modifier/${ligne.id_courrier}`">MODIFIER</NuxtLink>
+      <NuxtLink v-if="userNiveau === '2' || userNiveau === '3'" :to="`/modifier/${ligne.id_courrier}`">MODIFIER</NuxtLink>
     </td>
   </tr>
 </template>
@@ -25,7 +25,9 @@ import dayjs from "dayjs";
 export default {
   name: 'ligneTableau',
   props: {
-    tableau: {}
+    tableau: {},
+    userId: null,
+    userNiveau: null
   },
   methods: {
     deleteItem(id, index) {
