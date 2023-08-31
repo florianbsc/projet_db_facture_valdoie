@@ -7,13 +7,15 @@
     <td>{{ ligne.localite_courrier }}</td>
     <td>{{ ligne.commentaire_courrier }}</td>
     <td>
-      <button v-if="userNiveau === '2' || userNiveau === '3'" @click="deleteItem(ligne.id_courrier, index)">Supprimer</button>
+      <button v-if="userNiveau === '3'" @click="deleteItem(ligne.id_courrier, index)">Supprimer</button>
+      <button v-else-if="userNiveau === '2' && parseInt(userId) === ligne.user_courrier" @click="deleteItem(ligne.id_courrier, index)">Supprimer</button>
     </td>
 <!--
     lien vers la page de modification des mails
 -->
     <td>
-      <NuxtLink v-if="userNiveau === '2' || userNiveau === '3'" :to="`/modifier/${ligne.id_courrier}`">MODIFIER</NuxtLink>
+      <NuxtLink v-if="userNiveau === '3'" :to="`/modifier/${ligne.id_courrier}`">MODIFIER</NuxtLink>
+      <NuxtLink v-else-if="userNiveau === '2' && parseInt(userId) === ligne.user_courrier" :to="`/modifier/${ligne.id_courrier}`">MODIFIER</NuxtLink>
     </td>
   </tr>
 </template>
