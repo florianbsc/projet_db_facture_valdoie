@@ -15,23 +15,14 @@ export default  {
         login: this.login,
         password: this.password,
       }).then(response => {
-        console.log(response);
+        console.log(response.data.userInfo);
         if (response.status === 200) {
-          axios.post(`http://localhost:3006/api/getUserInfos`, {
-            login: this.login,
-            password: this.password,
-          }).then(response => {
-            console.log(response.data)
-            nuxtStorage.localStorage.setData('rights', `${JSON.stringify(response.data[0].id_niveau)}`)
-            nuxtStorage.localStorage.setData('userId', `${JSON.stringify(response.data[0].id_user)}`)
-            nuxtStorage.localStorage.setData('userLogin', `${JSON.stringify(response.data[0].login_user)}`)
+            nuxtStorage.localStorage.setData('rights', `${JSON.stringify(response.data.userInfo.id_niveau)}`)
+            nuxtStorage.localStorage.setData('userId', `${JSON.stringify(response.data.userInfo.id_user)}`)
+            nuxtStorage.localStorage.setData('userLogin', `${JSON.stringify(response.data.userInfo.login_user)}`)
             this.$router.push('/')
-          })
         }
       })
-          .catch(error => {
-            console.error("An error occurred:", error);
-    })
   },
     goToBack() {
       this.$router.push('/')

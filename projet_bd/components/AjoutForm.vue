@@ -58,22 +58,30 @@ export default {
   },
   methods: {
     addCourrier() {
-      axios.post(`http://localhost:3006/api/addCourrier`, {
-        centre:this.centre,
-        auteur:this.auteur,
-        localite:this.localite,
-        commentaire:this.commentaire,
-        userId:this.userId
-      }).then(response => {
-        this.lastAdded = [this.centre, this.commentaire, this.auteur, this.localite]
-        if (response.status === 201) {
-          this.centre = '';
-          this.auteur = '';
-          this.localite = '';
-          this.commentaire = '';
-          this.isDataSend = true;
-        }
-      })
+      if (this.userId === null) {
+        alert('Veuillez vous connecter')
+        this.$router.push('/login')
+      } else if (this.centre === '' || this.auteur === '' || this.localite === '' || this.commentaire === '') {
+        alert('Veuillez remplir tous les champs')
+      } else {
+        axios.post(`http://localhost:3006/api/addCourrier`, {
+          centre:this.centre,
+          auteur:this.auteur,
+          localite:this.localite,
+          commentaire:this.commentaire,
+          userId:this.userId
+        }).then(response => {
+          this.lastAdded = [this.centre, this.commentaire, this.auteur, this.localite]
+          if (response.status === 201) {
+            this.centre = '';
+            this.auteur = '';
+            this.localite = '';
+            this.commentaire = '';
+            this.isDataSend = true;
+          }
+        })
+      }
+
 
     },
     getUserId () {
