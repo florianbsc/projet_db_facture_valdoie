@@ -8,16 +8,14 @@
       <td>{{ ligne.localite_courrier }}</td>
       <td>{{ ligne.commentaire_courrier }}</td>
       <td>
-        <button v-if="userNiveau === '3'" @click="deleteItem(ligne.id_courrier, index)">Supprimer</button>
-        <button v-else-if="userNiveau === '2' && parseInt(userId) === ligne.user_courrier"
+        <button class="alert" v-if="userNiveau === '3'" @click="deleteItem(ligne.id_courrier, index)">Supprimer</button>
+        <button class="alert" v-else-if="userNiveau === '2' && parseInt(userId) === ligne.user_courrier"
                 @click="deleteItem(ligne.id_courrier, index)">Supprimer
         </button>
       </td>
       <td>
-        <NuxtLink v-if="userNiveau === '3'" :to="`/modifier/${ligne.id_courrier}`">MODIFIER</NuxtLink>
-        <NuxtLink v-else-if="userNiveau === '2' && parseInt(userId) === ligne.user_courrier"
-                  :to="`/modifier/${ligne.id_courrier}`">MODIFIER
-        </NuxtLink>
+        <button class="interaction" v-if="userNiveau === '3'" @click="this.$router.push(`/modifier/${ligne.id_courrier}`)">Modifier</button>
+        <button class="interaction" v-else-if="userNiveau === '2' && parseInt(userId) === ligne.user_courrier" @click="this.$router.push(`/modifier/${ligne.id_courrier}`)">Modifier</button>
       </td>
     </tr>
     <tr v-else-if="!isUserActivated">
@@ -28,16 +26,14 @@
       <td>{{ ligne.localite_courrier }}</td>
       <td>{{ ligne.commentaire_courrier }}</td>
       <td>
-        <button v-if="userNiveau === '3'" @click="deleteItem(ligne.id_courrier, index)">Supprimer</button>
-        <button v-else-if="userNiveau === '2' && parseInt(userId) === ligne.user_courrier"
+        <button class="alert" v-if="userNiveau === '3'" @click="deleteItem(ligne.id_courrier, index)">Supprimer</button>
+        <button class="alert" v-else-if="userNiveau === '2' && parseInt(userId) === ligne.user_courrier"
                 @click="deleteItem(ligne.id_courrier, index)">Supprimer
         </button>
       </td>
       <td>
-        <NuxtLink v-if="userNiveau === '3'" :to="`/modifier/${ligne.id_courrier}`">MODIFIER</NuxtLink>
-        <NuxtLink v-else-if="userNiveau === '2' && parseInt(userId) === ligne.user_courrier"
-                  :to="`/modifier/${ligne.id_courrier}`">MODIFIER
-        </NuxtLink>
+        <button class="interaction" v-if="userNiveau === '3'" @click="this.$router.push(`/modifier/${ligne.id_courrier}`)">Modifier</button>
+        <button class="interaction" v-else-if="userNiveau === '2' && parseInt(userId) === ligne.user_courrier" @click="this.$router.push(`/modifier/${ligne.id_courrier}`)">Modifier</button>
       </td>
     </tr>
 

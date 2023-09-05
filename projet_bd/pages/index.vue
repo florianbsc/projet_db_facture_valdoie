@@ -1,30 +1,30 @@
 <template>
   <div>
     <div>
-      <button v-if="user.id" @click="deconnectUser()">Deconnexion</button>
-      <button v-else @click="goToLogin()">Connexion</button>
+      <button class="alert" v-if="user.id" @click="deconnectUser()">Deconnexion</button>
+      <button class="interaction" v-else @click="goToLogin()">Connexion</button>
       <div v-if="user.login">Bonjour {{user.login}}</div>
     </div>
     <div v-if="user.id">
-      <button @click="isUserActivated = !isUserActivated">{{isUserActivated ? 'Afficher tout les courriers' : 'Afficher uniquement ses propres courriers'}}</button>
+      <button class="interaction" @click="isUserActivated = !isUserActivated">{{isUserActivated ? 'Afficher tout les courriers' : 'Afficher uniquement ses propres courriers'}}</button>
     </div>
 
     <table>
       <thead>
       <tr>
-        <th><button @click="sortTableBy('id_courrier','number')">Numero</button></th>
-        <th><button @click="sortTableBy('date_courrier', 'string')">Date</button></th>
-        <th><button @click="sortTableBy('nom_centre', 'string')">Centre</button></th>
-        <th><button @click="sortTableBy('auteur_courrier', 'string')">Auteur</button></th>
-        <th><button @click="sortTableBy('localite_courrier', 'string')">Localite</button></th>
-        <th><button @click="sortTableBy('commentaire_courrier', 'string')">Commentaire</button></th>
+        <th @click="sortTableBy('id_courrier','number')">Numero</th>
+        <th @click="sortTableBy('date_courrier', 'string')">Date</th>
+        <th @click="sortTableBy('nom_centre', 'string')">Centre</th>
+        <th @click="sortTableBy('auteur_courrier', 'string')">Auteur</th>
+        <th @click="sortTableBy('localite_courrier', 'string')">Localite</th>
+        <th @click="sortTableBy('commentaire_courrier', 'string')">Commentaire</th>
       </tr>
       </thead>
       <tbody>
       <ligneTableau :tableau="tableau" :user-id="user.id" :user-niveau="user.niveau" :is-user-activated="isUserActivated"/>
       <tr>
         <td>
-          <button v-if="user.niveau === '2' || user.niveau === '3'" @click="goToAjouter()">Ajouter</button>
+          <button class="interaction" v-if="user.niveau === '2' || user.niveau === '3'" @click="goToAjouter()">Ajouter</button>
         </td>
       </tr>
       </tbody>

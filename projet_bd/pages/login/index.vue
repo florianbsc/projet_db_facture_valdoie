@@ -32,20 +32,55 @@ export default  {
 </script>
 
 <template>
-  <button @click="goToBack()">Retour</button>
+  <button class="alert" @click="goToBack()">Retour</button>
   <form>
+    <h1>Connexion</h1>
     <div>
-      <label for="login">nom</label>
+      <label for="login">Identifiant</label>
       <input type="text" v-model="login">
     </div>
     <div>
       <label for="password">Mot de passe</label>
       <input type="password" v-model="password">
     </div>
-    <button @click.prevent="signIn">Connexion</button>
+    <button class="interaction" @click.prevent="signIn">Se connecter</button>
   </form>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+.alert {
+  margin: 20px;
+}
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(217, 217, 217, 0.2);
+    justify-content: center;
+    max-width: max-content;
+    padding: 20px;
+    border-radius: 16px;
+    margin: auto;
+    transform: translateY(25%);
+    h1 {
+      margin-bottom: 40px;
+    }
+    div {
+      display: flex;
+      flex-direction: column;
+      margin: 15px 0;
+      label, input {
+        margin-bottom: 10px;
+      }
+      input {
+        min-width: 444px;
+      }
+
+    }
+    button {
+      margin: 30px 0;
+    }
+  }
+  
 
 </style>
