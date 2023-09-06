@@ -8,14 +8,21 @@
       <td>{{ ligne.localite_courrier }}</td>
       <td>{{ ligne.commentaire_courrier }}</td>
       <td>
-        <button class="alert" v-if="userNiveau === '3'" @click="deleteItem(ligne.id_courrier, index)">Supprimer</button>
-        <button class="alert" v-else-if="userNiveau === '2' && parseInt(userId) === ligne.user_courrier"
-                @click="deleteItem(ligne.id_courrier, index)">Supprimer
+        <button class="alert crud" v-if="userNiveau === '3'" @click="deleteItem(ligne.id_courrier, index)"><img
+            src="/cross.svg"
+            alt=""></button>
+        <button class="alert crud" v-else-if="userNiveau === '2' && parseInt(userId) === ligne.user_courrier"
+                @click="deleteItem(ligne.id_courrier, index)"><img src="/cross.svg"
+                                                                   alt="">
         </button>
       </td>
       <td>
-        <button class="interaction" v-if="userNiveau === '3'" @click="this.$router.push(`/modifier/${ligne.id_courrier}`)">Modifier</button>
-        <button class="interaction" v-else-if="userNiveau === '2' && parseInt(userId) === ligne.user_courrier" @click="this.$router.push(`/modifier/${ligne.id_courrier}`)">Modifier</button>
+        <button class="interaction crud" v-if="userNiveau === '3'"
+                @click="this.$router.push(`/modifier/${ligne.id_courrier}`)"><img src="/modify.svg" alt="">
+        </button>
+        <button class="interaction crud" v-else-if="userNiveau === '2' && parseInt(userId) === ligne.user_courrier"
+                @click="this.$router.push(`/modifier/${ligne.id_courrier}`)"><img src="/modify.svg" alt="">
+        </button>
       </td>
     </tr>
     <tr v-else-if="!isUserActivated">
@@ -26,14 +33,21 @@
       <td>{{ ligne.localite_courrier }}</td>
       <td>{{ ligne.commentaire_courrier }}</td>
       <td>
-        <button class="alert" v-if="userNiveau === '3'" @click="deleteItem(ligne.id_courrier, index)">Supprimer</button>
-        <button class="alert" v-else-if="userNiveau === '2' && parseInt(userId) === ligne.user_courrier"
-                @click="deleteItem(ligne.id_courrier, index)">Supprimer
+        <button class="alert crud" v-if="userNiveau === '3'" @click="deleteItem(ligne.id_courrier, index)">
+          <img src="/cross.svg" alt="">
+        </button>
+        <button class="alert crud" v-else-if="userNiveau === '2' && parseInt(userId) === ligne.user_courrier"
+                @click="deleteItem(ligne.id_courrier, index)"><img src="/cross.svg"
+                                                                   alt="">
         </button>
       </td>
       <td>
-        <button class="interaction" v-if="userNiveau === '3'" @click="this.$router.push(`/modifier/${ligne.id_courrier}`)">Modifier</button>
-        <button class="interaction" v-else-if="userNiveau === '2' && parseInt(userId) === ligne.user_courrier" @click="this.$router.push(`/modifier/${ligne.id_courrier}`)">Modifier</button>
+        <button class="interaction crud" v-if="userNiveau === '3'"
+                @click="this.$router.push(`/modifier/${ligne.id_courrier}`)"><img src="/modify.svg" alt="">
+        </button>
+        <button class="interaction crud" v-else-if="userNiveau === '2' && parseInt(userId) === ligne.user_courrier"
+                @click="this.$router.push(`/modifier/${ligne.id_courrier}`)"><img src="/modify.svg" alt="">
+        </button>
       </td>
     </tr>
 
@@ -69,24 +83,25 @@ export default {
   }
 }
 </script>
-<style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Manrope&family=Montserrat+Alternates&family=Roboto&display=swap');
-
-table, form {
-  margin: 0;
-  font-size: 1em;
-  font-family: 'Manrope', sans-serif;
-
-}
+<style lang="scss" scoped>
 
 td {
+  &:nth-child(8n+1) {
+    border-radius: 16px 0 0 16px;
+    padding: 0 20px;
+  }
 
-  width: 350px;
-  text-align: justify;
-  padding: 16px;
-  margin: auto;
-
+  &:nth-child(8n) {
+    border-radius: 0 16px 16px 0;
+  }
 }
 
+tr {
+  height: 56px;
+
+  &:nth-child(2n+1) {
+    background: rgba(217, 217, 217, 0.3);
+  }
+}
 
 </style>

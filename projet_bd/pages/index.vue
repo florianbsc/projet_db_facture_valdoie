@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <div>
+  <div class="main">
+    <div class="connection">
       <button class="alert" v-if="user.id" @click="deconnectUser()">Deconnexion</button>
       <button class="interaction" v-else @click="goToLogin()">Connexion</button>
-      <div v-if="user.login">Bonjour {{user.login}}</div>
+      <div v-if="user.login">Bonjour <span style="font-weight: bold">{{ user.login }}</span></div>
     </div>
     <div v-if="user.id">
-      <button class="interaction" @click="isUserActivated = !isUserActivated">{{isUserActivated ? 'Afficher tout les courriers' : 'Afficher uniquement ses propres courriers'}}</button>
+
     </div>
 
     <table>
@@ -21,14 +21,19 @@
       </tr>
       </thead>
       <tbody>
-      <ligneTableau :tableau="tableau" :user-id="user.id" :user-niveau="user.niveau" :is-user-activated="isUserActivated"/>
-      <tr>
-        <td>
-          <button class="interaction" v-if="user.niveau === '2' || user.niveau === '3'" @click="goToAjouter()">Ajouter</button>
-        </td>
-      </tr>
+      <ligneTableau :tableau="tableau" :user-id="user.id" :user-niveau="user.niveau"
+                    :is-user-activated="isUserActivated"/>
       </tbody>
     </table>
+    <div v-if="user.niveau === '2' || user.niveau === '3' && user.id">
+
+        <button class="interaction" @click="goToAjouter()">Ajouter
+        </button>
+
+        <button class="interaction" @click="isUserActivated = !isUserActivated">
+          {{ isUserActivated ? 'Afficher tout les courriers' : 'Afficher uniquement ses propres courriers' }}
+        </button>
+    </div>
   </div>
 
 
@@ -63,9 +68,7 @@ export default {
     this.fetchData();
     this.userData()
   },
-  computed: {
-
-  },
+  computed: {},
   methods: {
     fetchData() {
       axios.get('http://localhost:3006/api/getData').then(response => {
@@ -92,7 +95,7 @@ export default {
         this.user.login = JSON.parse(nuxtStorage.localStorage.getData('userLogin'))
       }
     },
-    sortTableBy(key,dataType) {
+    sortTableBy(key, dataType) {
       this.tableau.sort((a, b) => {
         if (dataType === 'string') {
           return a[key].localeCompare(b[key]);
@@ -108,27 +111,24 @@ export default {
 
 </script>
 
-<style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Manrope&family=Montserrat+Alternates&family=Roboto&display=swap');
+<style lang="scss" scoped>
 
-table, form {
-  margin: 0;
-  font-size: 1em;
-  font-family: 'Manrope', sans-serif;
-
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0 auto;
 }
 
-td {
-
-  width: 350px;
-  text-align: justify;
-  padding: 16px;
-  margin: auto;
-
+th {
+  cursor: pointer;
+  text-align: left;
 }
 
-.active {
-  background-color: green;
+.connection {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
 }
 
 
